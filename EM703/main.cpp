@@ -48,21 +48,14 @@ float Pi_calc(float L, float D, bool Tipo,int n, float p){
   return pi;
 }
 
-
-
-
-
-int main(int argc, char *argv[]) {
-    float pi = PI; //Pi, porém definido na pré compilação
-    double r = 10;
-    float D = 10;  //Distância das bordas
+float Experimento(float pi, float r, float D){
     float L = r*D; //espaço
     bool Tipo = L < D;
 
 
     long long Lancamentos = 0xffffff;
     int Acertos = 0;
-
+/* dar um jeito de passar isso aqui p/ fora */
     std::random_device rd;
     std::mt19937 generator{rd()}; //escolha de 32 bits pq é menor
     std::uniform_real_distribution<double> distribuicaox(0,D/2);
@@ -83,11 +76,34 @@ int main(int argc, char *argv[]) {
     }
 
     float p = (float) Acertos/(float) Lancamentos;
-    float Pi = Pi_calc(L,D,Tipo,Lancamentos,p);
+    return Pi_calc(L,D,Tipo,Lancamentos,p);
 
-    std::cout << "O valor de pi e: " << Pi << std::endl;
+}
+
+
+
+
+
+int main(int argc, char *argv[]) {
     float GooglePi = 3.14159265359;
-    std::cout << "Erro de norma com relacao ao Pi do Google: " << abs(Pi-GooglePi)/GooglePi << std::endl;
+    
+    long long Iteracoes = 10;
+    float pi_e;
+    float r = 10;
+    float D = 10;  //Distância das bordas
+    float Pi0 = Experimento(PI,r,D);
+
+    for(long long i =0; i<Iteracoes;i++){
+        pi_e = Experimento(Pi0,r,D);
+    }
+
+    
+
+
+
+
+    std::cout << "O valor de pi e: " << pi_e << std::endl;
+    std::cout << "Erro de norma com relacao ao Pi do Google: " << abs(pi_e-GooglePi)/GooglePi << std::endl;
 
 
 
